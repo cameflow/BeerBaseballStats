@@ -11,16 +11,22 @@ import SwiftUI
 struct AddOutView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.username, ascending: true)]) var usersCD: FetchedResults<UserCD>
     
+    @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.username, ascending: true)]) var usersCD: FetchedResults<UserCD>
+
+    
+    
+
     @Environment(\.presentationMode) var presentationMode
     @State private var showStrikeOutAlert = false
     @State private var showFoulAlert = false
     
-    //@ObservedObject var users: Users
     @State private var selectedUser = 0
     @State private var catcher = 0
     @State private var defender = 0
+    
+    let teams = ["RED","BLUE"]
+    @State var attackingTeam = "RED"
     
     let options = ["HR", "STRIKE", "OUT", "HIT","SB"]
     @State private var option = "HR"
@@ -29,20 +35,47 @@ struct AddOutView: View {
     let stealOptions = ["STEAL", "NO STEAL"]
     @State private var stealResult = "STEAL"
     @State private var foul = false
+
     
     var body: some View {
         
-
-            
-            NavigationView {
-                
+        let redTeamArr = Array(usersCD).filter {$0.team == "1"}
+        let blueTeamArr = Array(usersCD).filter {$0.team == "2"}
+            return NavigationView {
                 Form {
-                    Picker("Select Batter", selection: $selectedUser) {
-                        ForEach(0..<usersCD.count) {
-                            Text(self.usersCD[$0].username ?? "Username").tag($0)
-                            
+                    
+                    Section(header: Text("Attacking Team")){
+                        Picker("",selection: $attackingTeam) {
+                            ForEach(teams,  id: \.self) {i in
+                                Text(i)
+                            }
+                        }.pickerStyle(SegmentedPickerStyle())
+                        
+                    }
+                    Section(header: Text("Select Batter")){
+                        if(self.attackingTeam == "RED"){
+                            Picker("RED Team", selection: $selectedUser) {
+                                ForEach(0..<redTeamArr.count) {
+                                    Text(redTeamArr[$0].username ?? "Username").tag($0)
+                                }
+                            }.onReceive([self.selectedUser].publisher.first()) { (value) in
+                                    print("HELLO")
+                            }
+                        } else {
+                           Picker("BLUE Team", selection: $selectedUser) {
+                                ForEach(0..<blueTeamArr.count) {
+                                    Text(blueTeamArr[$0].username ?? "Username").tag($0)
+                                }
+                            }.onReceive([self.selectedUser].publisher.first()) { (value) in
+                                    print("HELLO")
+                            }
                         }
                     }
+                    
+                    
+                    
+                    
+                    
                     Section(header: Text("Select move")){
                         Picker("",selection: $option) {
                             ForEach(options, id: \.self) {op in
@@ -142,6 +175,7 @@ struct AddOutView: View {
                         self.usersCD[self.selectedUser].numRuns += 1
                         self.usersCD[self.selectedUser].numCurrentStrikes = 0
                         self.presentationMode.wrappedValue.dismiss()
+                        print(self.attackingTeam)
                         
                     } else if (self.option == "OUT") {
                         self.usersCD[self.selectedUser].swing += 1

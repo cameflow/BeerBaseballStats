@@ -17,10 +17,14 @@ struct ContentView: View {
     @State var showAddUser = false
     @State var showAddOut = false
     @State var showUsers = false
+    
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var activeGame = UserDefaults.standard.bool(forKey: "activeGame")
-    
+    /*
+    @State private var teamRedCount = UserDefaults.standard.integer(forKey: "teamRedCount")
+    @State private var teamBlueCount = UserDefaults.standard.integer(forKey: "teamBlueCount")
+    */
     @State var showAlert = false
     @State private var selection = 0
 
@@ -47,20 +51,29 @@ struct ContentView: View {
                         
                      
                         Button(action: {
-                            if self.activeGame{
-                                for i in 0..<self.users.users.count {
-                                    self.users.users[i].numCurrentStrikes = 0
+                           let teamRedCount = UserDefaults.standard.integer(forKey: "teamRedCount")
+                           let teamBlueCount = UserDefaults.standard.integer(forKey: "teamBlueCount")
+                            if teamBlueCount > 0 && teamRedCount > 0{
+                                if self.activeGame{
+                                    for i in 0..<self.users.users.count {
+                                        self.users.users[i].numCurrentStrikes = 0
+                                    }
+                                    self.alertTitle = "Game Ended"
+                                    self.alertMessage = "You have finished the game"
+                                    self.showAlert = true
+                                } else {
+                                    self.alertTitle = "Game Started"
+                                    self.alertMessage = "You are staring a game, have fun!"
+                                    self.showAlert = true
                                 }
-                                self.alertTitle = "Game Ended"
-                                self.alertMessage = "You have finished the game"
-                                self.showAlert = true
+                                self.activeGame.toggle()
+                                UserDefaults.standard.set(self.activeGame, forKey: "activeGame")
                             } else {
-                                self.alertTitle = "Game Started"
-                                self.alertMessage = "You are staring a game, have fun!"
+                                self.alertTitle = "Create teams"
+                                self.alertMessage = "Both teams need to have at least one player"
                                 self.showAlert = true
                             }
-                            self.activeGame.toggle()
-                            UserDefaults.standard.set(self.activeGame, forKey: "activeGame")
+                            
                         }){
                             if (self.activeGame){
                                 Text("Stop Game")

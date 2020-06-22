@@ -71,7 +71,7 @@ struct AddUserView: View {
                             newUser.stealSuccess = 0
                             newUser.swing = 0
                             newUser.numStrikes = 0
-                            newUser.team = 0
+                            newUser.team = "0"
 
                             // Saving Created User in Core Data
                             try? self.moc.save()
