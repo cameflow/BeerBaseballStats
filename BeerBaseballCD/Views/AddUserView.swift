@@ -56,6 +56,7 @@ struct AddUserView: View {
                             
                             // Creating new user for Core Data
                             let newUser = UserCD(context: self.moc)
+                            newUser.id = UUID()
                             newUser.name = self.fullName
                             newUser.username = self.username
                             newUser.defendAttempts = 0

@@ -13,8 +13,6 @@ struct AddOutView: View {
     @Environment(\.managedObjectContext) var moc
     
     @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.username, ascending: true)]) var usersCD: FetchedResults<UserCD>
-
-    
     
 
     @Environment(\.presentationMode) var presentationMode
@@ -22,6 +20,7 @@ struct AddOutView: View {
     @State private var showFoulAlert = false
     
     @State private var selectedUser = 0
+    @State private var selectedUser_un = "NONE"
     @State private var catcher = 0
     @State private var defender = 0
     
@@ -51,6 +50,7 @@ struct AddOutView: View {
                             }
                         }.pickerStyle(SegmentedPickerStyle())
                         
+                        
                     }
                     Section(header: Text("Select Batter")){
                         if(self.attackingTeam == "RED"){
@@ -59,15 +59,30 @@ struct AddOutView: View {
                                     Text(redTeamArr[$0].username ?? "Username").tag($0)
                                 }
                             }.onReceive([self.selectedUser].publisher.first()) { (value) in
-                                    print("HELLO")
+                                var index = 0
+                                if value >= redTeamArr.count {
+                                    index = 0
+                                    self.selectedUser = 0
+                                } else {
+                                    index = value
+                                }
+                                self.selectedUser_un = redTeamArr[index].username!
                             }
                         } else {
+                           
                            Picker("BLUE Team", selection: $selectedUser) {
                                 ForEach(0..<blueTeamArr.count) {
                                     Text(blueTeamArr[$0].username ?? "Username").tag($0)
                                 }
                             }.onReceive([self.selectedUser].publisher.first()) { (value) in
-                                    print("HELLO")
+                                var index = 0
+                                if value >= blueTeamArr.count {
+                                    index = 0
+                                    self.selectedUser = 0
+                                } else {
+                                    index = value
+                                }
+                                self.selectedUser_un = blueTeamArr[index].username!
                             }
                         }
                     }
@@ -140,6 +155,15 @@ struct AddOutView: View {
                 }
                 .navigationBarItems(trailing: Button("Add"){
                     
+                    var count = 0
+                    for user in self.usersCD {
+                        if user.username! == self.selectedUser_un {
+                            self.selectedUser = count
+                            break
+                        }
+                        count += 1
+                    }
+                    
                     if self.option == "STRIKE" {
                         
                         self.usersCD[self.selectedUser].swing += 1
@@ -175,7 +199,6 @@ struct AddOutView: View {
                         self.usersCD[self.selectedUser].numRuns += 1
                         self.usersCD[self.selectedUser].numCurrentStrikes = 0
                         self.presentationMode.wrappedValue.dismiss()
-                        print(self.attackingTeam)
                         
                     } else if (self.option == "OUT") {
                         self.usersCD[self.selectedUser].swing += 1
