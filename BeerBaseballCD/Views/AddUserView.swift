@@ -67,6 +67,7 @@ struct AddUserView: View {
                             newUser.fouls = 0
                             newUser.numCatchs = 0
                             newUser.numCurrentStrikes = 0
+                            newUser.numOutsBySteal = 0
                             newUser.numRuns = 0
                             newUser.stealAttempts = 0
                             newUser.stealSuccess = 0

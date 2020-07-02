@@ -36,9 +36,11 @@ struct AddOutView: View {
     @State private var option = "HR"
     
     @State private var base = 1
+    @State private var stealBase = 1
     let stealOptions = ["STEAL", "NO STEAL"]
     @State private var stealResult = "STEAL"
     @State private var foul = false
+    @State private var stealOut = false
 
     
     var body: some View {
@@ -120,41 +122,53 @@ struct AddOutView: View {
                     }
                     
                     if (self.option == "OUT") {
-                        
-                        if(self.attackingTeam == "RED"){
-                            Picker("BLUE Team", selection: $catcher) {
-                                ForEach(0..<blueTeamArr.count) {
-                                    Text(blueTeamArr[$0].username ?? "Username").tag($0)
+                        Toggle("Out by Steal", isOn: $stealOut)
+                        if (!stealOut) {
+                            if(self.attackingTeam == "RED"){
+                                Picker("BLUE Team", selection: $catcher) {
+                                    ForEach(0..<blueTeamArr.count) {
+                                        Text(blueTeamArr[$0].username ?? "Username").tag($0)
+                                    }
+                                }.onReceive([self.catcher].publisher.first()) { (value) in
+                                    var index = 0
+                                    if value >= blueTeamArr.count {
+                                        index = 0
+                                        self.catcher = 0
+                                    } else {
+                                        index = value
+                                    }
+                                    self.selectedCatcher_un = blueTeamArr[index].username!
                                 }
-                            }.onReceive([self.catcher].publisher.first()) { (value) in
-                                var index = 0
-                                if value >= blueTeamArr.count {
-                                    index = 0
-                                    self.catcher = 0
-                                } else {
-                                    index = value
+                            } else {
+                                Picker("RED Team", selection: $catcher) {
+                                    ForEach(0..<redTeamArr.count) {
+                                        Text(redTeamArr[$0].username ?? "Username").tag($0)
+                                    }
+                                }.onReceive([self.catcher].publisher.first()) { (value) in
+                                    var index = 0
+                                    if value >= redTeamArr.count {
+                                        index = 0
+                                        self.catcher = 0
+                                    } else {
+                                        index = value
+                                    }
+                                    self.selectedCatcher_un = redTeamArr[index].username!
                                 }
-                                self.selectedCatcher_un = blueTeamArr[index].username!
-                            }
-                        } else {
-                            Picker("RED Team", selection: $catcher) {
-                                ForEach(0..<redTeamArr.count) {
-                                    Text(redTeamArr[$0].username ?? "Username").tag($0)
-                                }
-                            }.onReceive([self.catcher].publisher.first()) { (value) in
-                                var index = 0
-                                if value >= redTeamArr.count {
-                                    index = 0
-                                    self.catcher = 0
-                                } else {
-                                    index = value
-                                }
-                                self.selectedCatcher_un = redTeamArr[index].username!
                             }
                         }
+                        
 
                     }
                     if (self.option == "SB") {
+                        
+                        Section(header: Text("Select Stolen Base")){
+                            Picker("Select Base", selection: $stealBase) {
+                                ForEach(2..<5) {
+                                    Text("\($0)")
+                                    
+                                }
+                            }.pickerStyle(SegmentedPickerStyle())
+                        }
                         
                         if(self.attackingTeam == "RED"){
                             Picker("BLUE Team", selection: $defender) {
@@ -275,10 +289,16 @@ struct AddOutView: View {
                         
                     } else if (self.option == "OUT") {
                         
-                        self.usersCD[self.selectedUser].swing += 1
-                        self.usersCD[self.selectedUser].numOutsByCatch += 1
-                        self.usersCD[self.catcher].numCatchs += 1
-                        self.usersCD[self.catcher].numCurrentStrikes = 0
+                        if(self.stealOut) {
+                            self.usersCD[self.selectedUser].stealAttempts += 1
+                            self.usersCD[self.selectedUser].numOutsBySteal += 1
+                        } else {
+                            self.usersCD[self.selectedUser].swing += 1
+                            self.usersCD[self.selectedUser].numOutsByCatch += 1
+                            self.usersCD[self.catcher].numCatchs += 1
+                            self.usersCD[self.catcher].numCurrentStrikes = 0
+                        }
+                        
                         self.presentationMode.wrappedValue.dismiss()
                         
                     } else if (self.option == "HIT") {
@@ -307,6 +327,7 @@ struct AddOutView: View {
                         self.usersCD[self.defender].defendAttempts += 1
                         if self.stealResult == "STEAL" {
                             self.usersCD[self.selectedUser].stealSuccess += 1
+                            self.game.calculateScore(move: "SB", base: self.stealBase+2, team: self.attackingTeam)
                         } else {
                             self.usersCD[self.defender].defendSuccess += 1
                         }

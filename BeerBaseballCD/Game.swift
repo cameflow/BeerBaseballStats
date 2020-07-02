@@ -59,6 +59,12 @@ class Game: ObservableObject {
                 teamBluePoints += (fullBases + 1)
                 blueBases = [false,false,false]
             }
+        } else if move == "SB" {
+            if team == "RED" {
+                self.stolenBase(bases: &redBases, sb: base, score: &teamRedPoints)
+            } else {
+                self.stolenBase(bases: &blueBases, sb: base, score: &teamBluePoints)
+            }
         }
     }
     
@@ -108,6 +114,14 @@ class Game: ObservableObject {
         //Put new player in his final position
         newbases[hb-1] = true
         bases = newbases
+    }
+    
+    func stolenBase(bases: inout [Bool], sb: Int, score: inout Int){
+        if sb == 4 {
+            score += 1
+        } else if (!bases[sb - 1]){
+            bases[sb - 1] = true
+        }
     }
     	
     func clearGame(){

@@ -23,7 +23,7 @@ struct ButtonView: View {
             .frame(width: 300, height: 70)
             .background(Color.gray)
             .foregroundColor(Color.white)
-            .cornerRadius(20)
+            .cornerRadius(10)
             .font(.largeTitle)
             
         }

@@ -15,6 +15,7 @@ struct User: Identifiable, Codable, Hashable{
     let username: String
     var numOutsByStrikes = 0
     var numOutsByCatch = 0
+    var numOutsBySteal = 0
     var numRuns = 0
     var numStrikes = 0
     var numCurrentStrikes = 0

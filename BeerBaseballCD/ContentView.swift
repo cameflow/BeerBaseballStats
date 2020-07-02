@@ -21,13 +21,9 @@ struct ContentView: View {
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var activeGame = UserDefaults.standard.bool(forKey: "activeGame")
-    /*
-    @State private var teamRedCount = UserDefaults.standard.integer(forKey: "teamRedCount")
-    @State private var teamBlueCount = UserDefaults.standard.integer(forKey: "teamBlueCount")
-    */
+
     @State var showAlert = false
     @State private var selection = 0
-    
     @ObservedObject var game = Game()
 
     var body: some View {
@@ -36,25 +32,39 @@ struct ContentView: View {
         TabView(selection: $selection) {
                 VStack(spacing: 0) {
                     Spacer()
-                    VStack{
-                        Text("Score:")
+                    if (self.activeGame) {
+                        VStack{
+                            
+                            Text("Score:")
+                                .fontWeight(.thin)
+                                .font(.largeTitle)
+                            Text("\(game.teamRedPoints) - \(game.teamBluePoints)")
+                                .fontWeight(.thin)
+                                .font(.largeTitle)
+                            Text("Red       Blue")
+                                .fontWeight(.thin)
+                                .font(.caption)
+                            
+                        }
+                            
+                    } else {
+                        Text("Welcome!")
+                            .fontWeight(.thin)
                             .font(.largeTitle)
-                        Text("\(game.teamRedPoints) - \(game.teamBluePoints)")
-                            .font(.largeTitle)
-                        Text("Red       Blue").font(.caption)
+                        Spacer()
                     }
-                    
-                    Spacer()
                         Image("BeerBaseball2")
                             .resizable()
                             .frame(width: 350, height: 200)
                             .shadow(color: .gray, radius: 20)
-                            .padding(.bottom, 20)
+                            .padding(.bottom, 50)
+                            .padding(.top, 30)
 
                      
                         if (self.activeGame){
+                        
                             ButtonView(text: "Add Play", showView: $showAddOut)
-                            .padding(.bottom, 20)
+                                .padding(.bottom, 20)
                             .sheet(isPresented: $showAddOut) {
                                 AddOutView(game: self.game).environment(\.managedObjectContext,self.moc)
                             }
@@ -71,7 +81,14 @@ struct ContentView: View {
                                     }
                                     self.game.clearGame()
                                     self.alertTitle = "Game Ended"
-                                    self.alertMessage = "You have finished the game"
+                                    if (self.game.teamRedPoints > self.game.teamBluePoints) {
+                                        self.alertMessage = "TEAM RED WINS"
+                                    } else if (self.game.teamBluePoints > self.game.teamRedPoints) {
+                                        self.alertMessage = "TEAM BLUE WINS"
+                                    } else {
+                                        self.alertMessage = "GAME TIE"
+                                    }
+                                    
                                     self.showAlert = true
                                 } else {
                                     self.alertTitle = "Game Started"
@@ -89,18 +106,19 @@ struct ContentView: View {
                         }){
                             if (self.activeGame){
                                 Text("Stop Game")
-                                    .fontWeight(.thin)
+                                .fontWeight(.thin)
                                 .frame(width: 250, height: 50)
                                 .background(Color.red)
                                 .foregroundColor(Color.white)
-                                .cornerRadius(20)
+                                .cornerRadius(10)
                                 .font(.headline)
                             } else {
                                Text("Start Game")
+                                .fontWeight(.thin)
                                 .frame(width: 250, height: 50)
                                 .background(Color.green)
                                 .foregroundColor(Color.white)
-                                .cornerRadius(20)
+                                .cornerRadius(10)
                                 .font(.headline)
                             }
                             

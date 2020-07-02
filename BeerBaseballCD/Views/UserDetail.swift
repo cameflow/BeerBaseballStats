@@ -28,7 +28,7 @@ struct UserDetail: View {
                     VStack{
                         MyPieChartView(data: [Double(userCD.firstBase),Double(userCD.secondBase),Double(userCD.thirdBase)], elements: ["First Bse: \(userCD.firstBase)","Second Base: \(userCD.secondBase)","Thrid Base: \(userCD.thirdBase)"], colors: [Color.blue, Color.orange, Color.gray], title: "Bases %",legend: "# Hits: \(userCD.firstBase + userCD.secondBase + userCD.thirdBase)")
                         
-                        MyPieChartView(data: [Double(userCD.numOutsByCatch),Double(userCD.numOutsByStrikes)], elements: ["Outs By Catch: \(userCD.numOutsByCatch)","Outs by Strike: \(userCD.numOutsByStrikes)"], colors: [Color.blue, Color.orange], title: "Outs %",legend: "Outs: \(userCD.numOutsByCatch + userCD.numOutsByStrikes)")
+                        MyPieChartView(data: [Double(userCD.numOutsByCatch),Double(userCD.numOutsByStrikes),Double(userCD.numOutsBySteal)], elements: ["Outs By Catch: \(userCD.numOutsByCatch)","Outs by Strike: \(userCD.numOutsByStrikes)", "Outs by Steal: \(userCD.numOutsBySteal)"], colors: [Color.blue, Color.orange, Color.green], title: "Outs %",legend: "Outs: \(userCD.numOutsByCatch + userCD.numOutsByStrikes + userCD.numOutsBySteal)")
                         
                         MyPieChartView(data: [Double(userCD.stealSuccess),Double(userCD.stealAttempts - userCD.stealSuccess)], elements: ["Steals Won \(userCD.stealSuccess)","Steals lost\(userCD.stealAttempts - userCD.stealSuccess)"], colors: [Color.blue, Color.orange], title: "Base Steal %",legend: "# Steal attempts \(userCD.stealAttempts)")
                         
@@ -63,6 +63,7 @@ struct UserDetail_Previews: PreviewProvider {
         newUser.fouls = 0
         newUser.numCatchs = 0
         newUser.numCurrentStrikes = 0
+        newUser.numOutsBySteal = 0
         newUser.numRuns = 0
         newUser.stealAttempts = 0
         newUser.stealSuccess = 0
