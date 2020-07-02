@@ -14,6 +14,7 @@
 		FA3F13E4248DC101007EC39F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA3F13E3248DC101007EC39F /* Assets.xcassets */; };
 		FA3F13E7248DC101007EC39F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA3F13E6248DC101007EC39F /* Preview Assets.xcassets */; };
 		FA3F13EA248DC101007EC39F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA3F13E8248DC101007EC39F /* LaunchScreen.storyboard */; };
+		FA83A00424A5824E00C07D29 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA83A00324A5824E00C07D29 /* Game.swift */; };
 		FAA42C0F249879BA000E7F64 /* TeamsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA42C0E249879BA000E7F64 /* TeamsView.swift */; };
 		FAA42C1124987A6A000E7F64 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA42C1024987A6A000E7F64 /* RulesView.swift */; };
 		FAD31A70248DC2A80069FED6 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD31A6F248DC2A80069FED6 /* Users.swift */; };
@@ -38,6 +39,7 @@
 		FA3F13E6248DC101007EC39F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FA3F13E9248DC101007EC39F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA3F13EB248DC101007EC39F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA83A00324A5824E00C07D29 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		FAA42C0E249879BA000E7F64 /* TeamsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsView.swift; sourceTree = "<group>"; };
 		FAA42C1024987A6A000E7F64 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
 		FAD31A6F248DC2A80069FED6 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				FAA42C1224987CB3000E7F64 /* Views */,
 				FAA42C1324987CD2000E7F64 /* PieChartView */,
 				FAD31A6F248DC2A80069FED6 /* Users.swift */,
+				FA83A00324A5824E00C07D29 /* Game.swift */,
 				FA3F13E3248DC101007EC39F /* Assets.xcassets */,
 				FA3F13E8248DC101007EC39F /* LaunchScreen.storyboard */,
 				FA3F13EB248DC101007EC39F /* Info.plist */,
@@ -214,6 +217,7 @@
 				FAD31A70248DC2A80069FED6 /* Users.swift in Sources */,
 				FAD31A78248DC3510069FED6 /* UsersView.swift in Sources */,
 				FAA42C1124987A6A000E7F64 /* RulesView.swift in Sources */,
+				FA83A00424A5824E00C07D29 /* Game.swift in Sources */,
 				FA3F13E2248DC0FF007EC39F /* ContentView.swift in Sources */,
 				FA3F13DD248DC0FF007EC39F /* SceneDelegate.swift in Sources */,
 				FAD31A76248DC31B0069FED6 /* AddOutView.swift in Sources */,

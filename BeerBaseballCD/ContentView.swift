@@ -27,12 +27,23 @@ struct ContentView: View {
     */
     @State var showAlert = false
     @State private var selection = 0
+    
+    @ObservedObject var game = Game()
 
     var body: some View {
-
+        
         
         TabView(selection: $selection) {
                 VStack(spacing: 0) {
+                    Spacer()
+                    VStack{
+                        Text("Score:")
+                            .font(.largeTitle)
+                        Text("\(game.teamRedPoints) - \(game.teamBluePoints)")
+                            .font(.largeTitle)
+                        Text("Red       Blue").font(.caption)
+                    }
+                    
                     Spacer()
                         Image("BeerBaseball2")
                             .resizable()
@@ -45,7 +56,7 @@ struct ContentView: View {
                             ButtonView(text: "Add Play", showView: $showAddOut)
                             .padding(.bottom, 20)
                             .sheet(isPresented: $showAddOut) {
-                                AddOutView().environment(\.managedObjectContext,self.moc)
+                                AddOutView(game: self.game).environment(\.managedObjectContext,self.moc)
                             }
                         }
                         
@@ -56,8 +67,9 @@ struct ContentView: View {
                             if teamBlueCount > 0 && teamRedCount > 0{
                                 if self.activeGame{
                                     for i in 0..<self.users.users.count {
-                                        self.users.users[i].numCurrentStrikes = 0
+                                        self.users.users[i].numCurrentStrikes = 0	
                                     }
+                                    self.game.clearGame()
                                     self.alertTitle = "Game Ended"
                                     self.alertMessage = "You have finished the game"
                                     self.showAlert = true
