@@ -1,0 +1,44 @@
+[
+    {
+        "id":1001,
+        "name":"HomeRun",
+        "imageName":"",
+        "description":"Home Run description.",
+        "category":"attack"
+    },
+    {
+        "id":1002,
+        "name":"Hit",
+        "imageName":"",
+        "description":"Hit description.",
+        "category":"attack"
+    },
+    {
+        "id":1003,
+        "name":"Steal Base",
+        "imageName":"",
+        "description":"Steal base attacking description.",
+        "category":"attack"
+    },
+    {
+        "id":1004,
+        "name":"Steal Base",
+        "imageName":"",
+        "description":"Steal Base attacking description.",
+        "category":"defense"
+    },
+    {
+        "id":1005,
+        "name":"Out",
+        "imageName":"",
+        "description":"Outs description.",
+        "category":"defense"
+    },
+    {
+        "id":1006,
+        "name":"Foul",
+        "imageName":"",
+        "description":"Foul description.",
+        "category":"defense"
+    }
+]
