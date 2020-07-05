@@ -300,7 +300,7 @@ struct AddOutView: View {
                         }
                         
                         self.presentationMode.wrappedValue.dismiss()
-                        
+                        	
                     } else if (self.option == "HIT") {
                         
                         self.usersCD[self.selectedUser].swing += 1

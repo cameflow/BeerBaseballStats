@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct ContentView: View {
     @ObservedObject var users = Users()
@@ -17,12 +18,18 @@ struct ContentView: View {
     @State var showAddUser = false
     @State var showAddOut = false
     @State var showUsers = false
+    @State var coinSoundEffect: AVAudioPlayer?
+    
+    @State private var animationAmount = 0.0
+    @State private var startingTeam = "SPIN"
+    @State private var coinColor = Color.gray
     
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var activeGame = UserDefaults.standard.bool(forKey: "activeGame")
 
     @State var showAlert = false
+    @State var tossCoin = false
     @State private var selection = 0
     @ObservedObject var game = Game()
 
@@ -30,6 +37,7 @@ struct ContentView: View {
         
         
         TabView(selection: $selection) {
+            ZStack{
                 VStack(spacing: 0) {
                     Spacer()
                     if (self.activeGame) {
@@ -93,7 +101,8 @@ struct ContentView: View {
                                 } else {
                                     self.alertTitle = "Game Started"
                                     self.alertMessage = "You are staring a game, have fun!"
-                                    self.showAlert = true
+                                    //self.showAlert = true
+                                    self.tossCoin = true
                                 }
                                 self.activeGame.toggle()
                                 UserDefaults.standard.set(self.activeGame, forKey: "activeGame")
@@ -127,7 +136,66 @@ struct ContentView: View {
                         
                         
                         Spacer()
-                    }.alert(isPresented: $showAlert){
+            }
+                if self.tossCoin {
+                ZStack{
+                    Rectangle()
+                        .frame(width: 300, height: 500, alignment: .center)
+                        .opacity(0.6)
+                        .cornerRadius(10)
+ 
+                    VStack{
+                        HStack{
+                            Spacer()
+                            Button(action: {
+                                self.tossCoin = false
+                            }) {
+                                Image(systemName: "xmark.circle.fill").resizable().frame(width: 30, height: 30)
+                            }.padding([.trailing,.top], 20.0)
+                        }
+                        Spacer()
+                        Button(action: {
+                            self.playSound()
+                            withAnimation(.easeOut(duration: 2)) {
+                                self.animationAmount += 1440
+                                self.startingTeam = ["RED", "BLUE"].randomElement()!
+                                if self.startingTeam == "RED" {
+                                    self.coinColor = Color.red
+                                } else {
+                                    self.coinColor = Color.blue
+                                }
+                            }
+                        }){
+                            Text(startingTeam)
+                                .fontWeight(.bold)
+                                .font(.largeTitle)
+                                .frame(width: 150, height: 150, alignment: .center)
+                        }
+                        .padding(50)
+                        .background(self.coinColor)
+                        .foregroundColor(.white)
+                        .clipShape(Circle())
+                        .rotation3DEffect(.degrees(animationAmount), axis: (x: 1.0, y: 0.0, z: 0.0))
+                        .onAppear(perform: {
+                            self.playSound()
+                            withAnimation(.easeOut(duration: 2)) {
+                                self.animationAmount += 1440
+                                self.startingTeam = ["RED", "BLUE"].randomElement()!
+                                if self.startingTeam == "RED" {
+                                    self.coinColor = Color.red
+                                } else {
+                                    self.coinColor = Color.blue
+                                }
+                            }
+                            
+                        })
+                        Spacer()
+                    }
+
+                }.frame(width: 300, height: 500, alignment: .center)
+                    
+                }
+        }.alert(isPresented: $showAlert){
                         Alert(title: Text(self.alertTitle), message: Text(self.alertMessage), dismissButton: .default(Text("Ok")))
                         
                 }.tabItem {
@@ -167,6 +235,18 @@ struct ContentView: View {
         }
         
         
+    }
+    
+     func playSound(){
+        let path = Bundle.main.path(forResource: "coinsound.wav", ofType:nil)!
+        let url = URL(fileURLWithPath: path)
+
+        do {
+            coinSoundEffect = try AVAudioPlayer(contentsOf: url)
+            coinSoundEffect?.play()
+        } catch {
+            print("couldn't load file")
+        }
     }
 }
 
