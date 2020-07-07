@@ -8,33 +8,12 @@
 
 import SwiftUI
 
-/* EXAMPLE CODE TO TEST CREATING TEAMS */
-/*
-struct Person: Identifiable {
-    var id = UUID()
-    var name: String
-    var team: Int {didSet {
-        // Added to show that state is being modified
-        print("\(name) just changed team")
-        }}
-}
-
-class Team: ObservableObject {
-    @Published var persons: [Person]
-
-    init(persons: [Person]) {
-        self.persons = persons
-    }
-}
-*/
-
 struct AddTeam: View {
-    /*
-    Example Code to test creating teams
-    @ObservedObject var team: Team
-    */
+
     @Environment(\.managedObjectContext) var moc
+    
     @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.team, ascending: false)]) var usersCD: FetchedResults<UserCD>
+    
     @State private var teamRedCount = UserDefaults.standard.integer(forKey: "teamRedCount")
     @State private var teamBlueCount = UserDefaults.standard.integer(forKey: "teamBlueCount")
     @State private var activeGame = UserDefaults.standard.bool(forKey: "activeGame")
@@ -53,32 +32,10 @@ struct AddTeam: View {
                             Spacer()
                         
                             if self.usersCD[p].team == "0"{
-                                Button(action: {
-                                    if !self.activeGame {
-                                        self.usersCD[p].team = "1"
-                                        try? self.moc.save()
-                                        self.teamRedCount += 1
-                                        UserDefaults.standard.set(self.teamRedCount, forKey: "teamRedCount")
-                                    }
-                                    
-                                }){
-                                  Image(systemName: "circle")
-                                    .imageScale(.large)
-                                }
+                                TeamButtonView(teamNumber: "1", teamName: "RED", activeGame: self.activeGame, user: self.usersCD[p], imageName: "circle", teamCounter: self.$teamRedCount).environment(\.managedObjectContext,self.moc)
                                
                             } else {
-                                Button(action: {
-                                    if !self.activeGame {
-                                        self.usersCD[p].team = "0"
-                                        try? self.moc.save()
-                                        self.teamRedCount -= 1
-                                        UserDefaults.standard.set(self.teamRedCount, forKey: "teamRedCount")
-                                    }
-                                    
-                                }){
-                                  Image(systemName: "r.circle.fill")
-                                    .imageScale(.large)
-                                }
+                                TeamButtonView(teamNumber: "0", teamName: "RED", activeGame: self.activeGame, user: self.usersCD[p], imageName: "r.circle.fill", teamCounter: self.$teamRedCount).environment(\.managedObjectContext,self.moc)
                             }
                         }
                     }.padding([.leading,.trailing])
@@ -98,32 +55,12 @@ struct AddTeam: View {
                             Spacer()
                             
                             if self.usersCD[p].team == "0"{
-                                Button(action: {
-                                    if !self.activeGame {
-                                        self.usersCD[p].team = "2"
-                                        try? self.moc.save()
-                                        self.teamBlueCount += 1
-                                        UserDefaults.standard.set(self.teamBlueCount, forKey: "teamBlueCount")
-                                    }
-                                    
-                                }){
-                                  Image(systemName: "circle")
-                                    .imageScale(.large)
-                                }
+
+                                TeamButtonView(teamNumber: "2", teamName: "BLUE", activeGame: self.activeGame, user: self.usersCD[p], imageName: "circle", teamCounter: self.$teamBlueCount).environment(\.managedObjectContext,self.moc)
                                
                             } else {
-                                Button(action: {
-                                    if !self.activeGame {
-                                        self.usersCD[p].team = "0"
-                                        try? self.moc.save()
-                                        self.teamBlueCount -= 1
-                                        UserDefaults.standard.set(self.teamBlueCount, forKey: "teamBlueCount")
-                                    }
-                                    
-                                }){
-                                  Image(systemName: "b.circle.fill")
-                                    .imageScale(.large)
-                                }
+
+                                TeamButtonView(teamNumber: "0", teamName: "BLUE", activeGame: self.activeGame, user: self.usersCD[p], imageName: "b.circle.fill", teamCounter: self.$teamBlueCount).environment(\.managedObjectContext,self.moc)
                             }
                         }
                     }.padding([.leading,.trailing])
@@ -138,12 +75,15 @@ struct AddTeam: View {
                     try? self.moc.save()
                     UserDefaults.standard.set(0, forKey: "teamRedCount")
                     UserDefaults.standard.set(0, forKey: "teamBlueCount")
+                    self.teamRedCount = 0
+                    self.teamBlueCount = 0
                 }){
                     Text("Reset Teams")
+                    .fontWeight(.thin)
                     .frame(width: 250, height: 50)
                     .background(Color.gray)
                     .foregroundColor(Color.white)
-                    .cornerRadius(20)
+                    .cornerRadius(10)
                     .font(.headline)
                 }.padding(.bottom)
             }

@@ -20,11 +20,11 @@ struct ButtonView: View {
         }) {
             Text(text)
             .fontWeight(.thin)
-            .frame(width: 300, height: 70)
+            .frame(width: 250, height: 50)
             .background(Color.gray)
             .foregroundColor(Color.white)
             .cornerRadius(10)
-            .font(.largeTitle)
+            .font(.headline)
             
         }
         

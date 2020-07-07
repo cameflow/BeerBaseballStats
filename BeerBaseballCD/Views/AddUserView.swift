@@ -11,7 +11,6 @@ import SwiftUI
 
 struct AddUserView: View {
     
-    @ObservedObject var users: Users
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
     
@@ -126,6 +125,6 @@ struct AddUserView: View {
 
 struct AddUserView_Previews: PreviewProvider {
     static var previews: some View {
-        AddUserView(users: Users())
+        AddUserView()
     }
 }

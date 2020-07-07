@@ -12,7 +12,7 @@ import CoreData
 
 struct UsersView: View {
     
-     @ObservedObject var users = Users()
+     //@ObservedObject var users = Users()
     
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.username, ascending: true)]) var usersCD: FetchedResults<UserCD>
@@ -21,8 +21,8 @@ struct UsersView: View {
     @State var showAddUser = false
     
     var body: some View {
-        VStack{
-            NavigationView{
+        VStack {
+            NavigationView {
                 List {
                     searchView(txt: $txt)
                     ForEach(usersCD.filter{txt == "" ? true : $0.username!.localizedCaseInsensitiveContains(txt)}, id: \.self){ person in
@@ -42,7 +42,7 @@ struct UsersView: View {
                         }
                     }.onDelete(perform: deleteUser)
                 }.sheet(isPresented: self.$showAddUser) {
-                    AddUserView(users: self.users).environment(\.managedObjectContext,self.moc)
+                    AddUserView().environment(\.managedObjectContext,self.moc)
                 }
                 .navigationBarTitle("Users", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action:
@@ -91,6 +91,7 @@ struct searchView : UIViewRepresentable {
     func makeUIView(context: UIViewRepresentableContext<searchView>) -> UISearchBar {
         let searchbar = UISearchBar()
         searchbar.barStyle = .default
+        searchbar.searchBarStyle = .minimal
         searchbar.showsCancelButton = true
         searchbar.autocapitalizationType = .none
         searchbar.delegate = context.coordinator

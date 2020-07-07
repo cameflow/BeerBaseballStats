@@ -10,7 +10,6 @@ import SwiftUI
 import AVFoundation
 
 struct ContentView: View {
-    @ObservedObject var users = Users()
     
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.username, ascending: true)]) var usersCD: FetchedResults<UserCD>
@@ -84,8 +83,8 @@ struct ContentView: View {
                            let teamBlueCount = UserDefaults.standard.integer(forKey: "teamBlueCount")
                             if teamBlueCount > 0 && teamRedCount > 0{
                                 if self.activeGame{
-                                    for i in 0..<self.users.users.count {
-                                        self.users.users[i].numCurrentStrikes = 0	
+                                    for i in 0..<self.usersCD.count {
+                                        self.usersCD[i].numCurrentStrikes = 0
                                     }
                                     self.game.clearGame()
                                     self.alertTitle = "Game Ended"
@@ -101,7 +100,7 @@ struct ContentView: View {
                                 } else {
                                     self.alertTitle = "Game Started"
                                     self.alertMessage = "You are staring a game, have fun!"
-                                    //self.showAlert = true
+                                    
                                     self.tossCoin = true
                                 }
                                 self.activeGame.toggle()
@@ -132,9 +131,6 @@ struct ContentView: View {
                             }
                             
                         }
-                        
-                        
-                        
                         Spacer()
             }
                 if self.tossCoin {
@@ -149,6 +145,7 @@ struct ContentView: View {
                             Spacer()
                             Button(action: {
                                 self.tossCoin = false
+                                self.showAlert = true
                             }) {
                                 Image(systemName: "xmark.circle.fill").resizable().frame(width: 30, height: 30)
                             }.padding([.trailing,.top], 20.0)
