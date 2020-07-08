@@ -12,7 +12,6 @@ import CoreData
 
 struct UsersView: View {
     
-     //@ObservedObject var users = Users()
     
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.username, ascending: true)]) var usersCD: FetchedResults<UserCD>
@@ -20,6 +19,8 @@ struct UsersView: View {
     @State var txt = ""
     @State var showAddUser = false
     
+    @State var showAlert = false
+
     var body: some View {
         VStack {
             NavigationView {
@@ -53,7 +54,8 @@ struct UsersView: View {
                 })
                
             }
-        }
+        }.alert(isPresented: $showAlert){
+            Alert(title: Text("Can't delete user"), message: Text("User is assigned to a team, remove from team before deleting"), dismissButton: .default(Text("Ok")))}
         
         
     }
@@ -61,9 +63,14 @@ struct UsersView: View {
         for offset in offsets {
             // find this user in our fetch request
             let user = usersCD[offset]
+            if user.team != "0"{
+                self.showAlert = true
+            } else {
+                // delete it from the context
+                moc.delete(user)
+            }
 
-            // delete it from the context
-            moc.delete(user)
+            
         }
 
         // save the context
