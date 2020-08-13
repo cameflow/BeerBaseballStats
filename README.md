@@ -2,7 +2,7 @@
 iOS app developed in Swift using SwiftUI framework.
 
 * App to save statistics when you play BeerBaseball
-* Tool to help you track
+* Tool to help you track the stats of your games
 
 [BeerBaseball Rules](https://en.wikipedia.org/wiki/Baseball_(drinking_game))
 
@@ -16,7 +16,7 @@ iOS app developed in Swift using SwiftUI framework.
 - View historical stats by category for each player
 
 ## Validations
-- Can't start the game until each time has at least one player
+- Can't start the game until each team has at least one player
 - When you select the attacking team you will only be able to select players from that team as batters
 - The game tracks which bases have players so when you make a HIT or a Home Run the corresponding number of runs will be added to the score
 - After 3 strikes you will get an out
@@ -31,32 +31,32 @@ iOS app developed in Swift using SwiftUI framework.
 ## Stats Available
 - Batting %
   - Number of Hits
-  - Number of Home runs
-  - Number of strikes
-  - Number of fouls
-  - Number of outs
+  - Number of Home Runs
+  - Number of Strikes
+  - Number of Fouls
+  - Number of Outs
 
 
-- Bases %
-  - Number of hits to first base
-  - Number of hits to second base
-  - Number of hits to third base
+- % of Bases
+  - Number of Hits to First Base
+  - Number of Hits to Second Base
+  - Number of Hits to Third Base
 
 
-- Outs %
-  - Number of outs by catch
-  - Number of outs by strikes
-  - Number of outs when stealing base
+- % of Outs
+  - Number of Outs by Catch
+  - Number of Outs by Strikes
+  - Number of Outs when Stealing Bases
 
 
-- Base steal %
-  - Number of successful steals
-  - Number of unsuccessful steals
+- % of Base Steals
+  - Number of Successful Steals
+  - Number of Unsuccessful Steals
 
 
-- Base defends %
-  - Number of successful defends
-  - Number of unsuccessful defends
+- % of Bases Defend
+  - Number of Successful Bases Defended
+  - Number of Unsuccessful Bases Defended
 
 
 - Number of outs made
@@ -64,7 +64,7 @@ iOS app developed in Swift using SwiftUI framework.
 
 ## TO DO
 - [ ] Visualize what bases are occupied by players
-- [ ] Add Description to the rules
+- [ ] Add description to the rules
 - [ ] Be able to see the number of outs for each team
 
 ## Screenshots
