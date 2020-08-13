@@ -62,6 +62,11 @@ iOS app developed in Swift using SwiftUI framework.
 - Number of outs made
 
 
+## TO DO
+- [ ] Visualize what bases are occupied by players
+- [ ] Add Description to the rules
+- [ ] Be able to see the number of outs for each team
+
 ## Screenshots
 
 ### Create Users
