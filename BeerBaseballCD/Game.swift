@@ -112,8 +112,8 @@ class Game: ObservableObject {
             }
         }
         //Put new player in his final position
-        newbases[hb-1] = true
-        bases = newbases
+        newbases[hb-1]  = true
+        bases           = newbases
     }
     
     func stolenBase(bases: inout [Bool], sb: Int, score: inout Int){
@@ -125,9 +125,9 @@ class Game: ObservableObject {
     }
     	
     func clearGame(){
-        blueBases = [false,false,false]
-        redBases = [false,false,false]
-        teamBluePoints = 0
-        teamRedPoints = 0
+        blueBases       = [false,false,false]
+        redBases        = [false,false,false]
+        teamBluePoints  = 0
+        teamRedPoints   = 0
     }
 }

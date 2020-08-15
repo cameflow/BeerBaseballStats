@@ -14,9 +14,9 @@ struct AddTeam: View {
     
     @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.team, ascending: false)]) var usersCD: FetchedResults<UserCD>
     
-    @State private var teamRedCount = UserDefaults.standard.integer(forKey: "teamRedCount")
-    @State private var teamBlueCount = UserDefaults.standard.integer(forKey: "teamBlueCount")
-    @State private var activeGame = UserDefaults.standard.bool(forKey: "activeGame")
+    @State private var teamRedCount     = UserDefaults.standard.integer(forKey: "teamRedCount")
+    @State private var teamBlueCount    = UserDefaults.standard.integer(forKey: "teamBlueCount")
+    @State private var activeGame       = UserDefaults.standard.bool(forKey: "activeGame")
   
     var body: some View {
          return VStack{

@@ -11,37 +11,35 @@ import SwiftUI
 struct AddOutView: View {
     
     @Environment(\.managedObjectContext) var moc
-    
+    @Environment(\.presentationMode) var presentationMode
     @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.username, ascending: true)]) var usersCD: FetchedResults<UserCD>
     
     var game:Game
-
-    @Environment(\.presentationMode) var presentationMode
-    @State private var showStrikeOutAlert = false
-    @State private var showFoulAlert = false
     
-    @State private var selectedUser = 0
-    @State private var catcher = 0
-    @State private var defender = 0
+    @State private var showStrikeOutAlert   = false
+    @State private var showFoulAlert        = false
+    @State private var foul                 = false
+    @State private var stealOut            = false
     
-    @State private var selectedUser_un = "NONE"
-    @State private var selectedCatcher_un = "NONE"
-    @State private var selectedDefender_un = "NONE"
+    @State private var selectedUser         = 0
+    @State private var catcher              = 0
+    @State private var defender             = 0
+    
+    @State private var selectedUser_un      = "NONE"
+    @State private var selectedCatcher_un   = "NONE"
+    @State private var selectedDefender_un  = "NONE"
     
     
-    let teams = ["RED","BLUE"]
-    @State var attackingTeam = "RED"
+    let teams                       = ["RED","BLUE"]
+    let options                     = ["HR", "STRIKE", "OUT", "HIT","SB"]
+    let stealOptions                = ["STEAL", "NO STEAL"]
     
-    let options = ["HR", "STRIKE", "OUT", "HIT","SB"]
-    @State private var option = "HR"
+    @State var attackingTeam        = "RED"
+    @State private var option       = "HR"
+    @State private var stealResult  = "STEAL"
     
-    @State private var base = 1
-    @State private var stealBase = 1
-    let stealOptions = ["STEAL", "NO STEAL"]
-    @State private var stealResult = "STEAL"
-    @State private var foul = false
-    @State private var stealOut = false
-
+    @State private var base         = 1
+    @State private var stealBase    = 1
     
     var body: some View {
         

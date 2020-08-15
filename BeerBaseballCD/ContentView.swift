@@ -14,23 +14,23 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.username, ascending: true)]) var usersCD: FetchedResults<UserCD>
     
-    @State var showAddUser = false
-    @State var showAddOut = false
-    @State var showUsers = false
+    @State var showAddUser  = false
+    @State var showAddOut   = false
+    @State var showUsers    = false
+    @State var showAlert    = false
+    @State var tossCoin     = false
+    
     @State var coinSoundEffect: AVAudioPlayer?
+    @State private var animationAmount  = 0.0
+    @State private var startingTeam     = "SPIN"
+    @State private var coinColor        = Color.gray
     
-    @State private var animationAmount = 0.0
-    @State private var startingTeam = "SPIN"
-    @State private var coinColor = Color.gray
-    
-    @State private var alertTitle = ""
+    @State private var alertTitle   = ""
     @State private var alertMessage = ""
-    @State private var activeGame = UserDefaults.standard.bool(forKey: "activeGame")
+    @State private var activeGame   = UserDefaults.standard.bool(forKey: "activeGame")
 
-    @State var showAlert = false
-    @State var tossCoin = false
-    @State private var selection = 0
-    @ObservedObject var game = Game()
+    @State private var selection    = 0
+    @ObservedObject var game        = Game()
 
     var body: some View {
         

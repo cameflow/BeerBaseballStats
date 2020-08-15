@@ -12,14 +12,12 @@ import CoreData
 
 struct UsersView: View {
     
-    
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: UserCD.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.username, ascending: true)]) var usersCD: FetchedResults<UserCD>
     
-    @State var txt = ""
-    @State var showAddUser = false
-    
-    @State var showAlert = false
+    @State var txt          = ""
+    @State var showAddUser  = false
+    @State var showAlert    = false
 
     var body: some View {
         VStack {
@@ -96,18 +94,17 @@ struct searchView : UIViewRepresentable {
     }
     
     func makeUIView(context: UIViewRepresentableContext<searchView>) -> UISearchBar {
-        let searchbar = UISearchBar()
-        searchbar.barStyle = .default
-        searchbar.searchBarStyle = .minimal
-        searchbar.showsCancelButton = true
-        searchbar.autocapitalizationType = .none
-        searchbar.delegate = context.coordinator
+        let searchbar                       = UISearchBar()
+        searchbar.barStyle                  = .default
+        searchbar.searchBarStyle            = .minimal
+        searchbar.showsCancelButton         = true
+        searchbar.autocapitalizationType    = .none
+        searchbar.delegate                  = context.coordinator
         searchbar.endEditing(true)
         return searchbar
     }
     
     func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<searchView>) {
-        //
     }
     
     class Coordinator : NSObject,UISearchBarDelegate {
